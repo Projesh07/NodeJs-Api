@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bootstrap Photo Gallery jQuery Plugin Example</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="js/photo-gallery.js"></script>
+  </head>
+  <style>
+      ul {
+          padding:0 0 0 0;
+          margin:0 0 0 0;
+      }
+      ul li {
+          list-style:none;
+          margin-bottom:25px;
+      }
+      ul li img {
+          cursor: pointer;
+      }
+      .modal-body {
+          padding:5px !important;
+      }
+      .modal-content {
+          border-radius:0;
+      }
+      .modal-dialog img {
+          text-align:center;
+          margin:0 auto;
+      }
+    .controls{
+        width:50px;
+        display:block;
+        font-size:11px;
+        padding-top:8px;
+        font-weight:bold;
+    }
+    .next {
+        float:right;
+        text-align:right;
+    }
+      /*override modal for demo only*/
+      .modal-dialog {
+          max-width:500px;
+          padding-top: 90px;
+      }
+      @media screen and (min-width: 768px){
+          .modal-dialog {
+              width:500px;
+              padding-top: 90px;
+          }
+      }
+      @media screen and (max-width:1500px){
+          #ads {
+              display:none;
+          }
+      }
+  </style>
+  <body>
+    <div class="container">
+        <div class="row" style="text-align:center; border-bottom:1px dashed #ccc;  padding:0 0 20px 0; margin-bottom:40px;">
+            <h3 style="font-family:arial; font-weight:bold; font-size:30px;">
+                Linkdin profile API Information
+        </h3>
+    </div>
+
+    <a href="/linkedin"> linkdin</a>
+
+
+
+          <div id="token" style="display:block">
+            <br>
+            <br>
+          <% if (info) { %>
+            <ul class="row">
+            <li class="col-lg-12 col-md-12 col-sm-3 col-xs-4"><div>First name : <%= info.firstname %></div> </li>
+            </ul>
+            <ul class="row">
+            <li class="col-lg-12 col-md-12 col-sm-3 col-xs-4"><div>Last name : <%= info.lastname %></div></li>
+            </ul>
+            <ul class="row">
+            <li class="col-lg-12 col-md-12 col-sm-3 col-xs-4"><div>Full name: <%= info.headline %></div></li>
+            </ul>
+            <ul class="row">
+            <li class="col-lg-2 col-md-12 col-sm-3 col-xs-4"><div>Profile :<img src='<%= info.profile_pic %>' alt="Image not found"/> </div></li>
+            </ul>
+
+
+            <% } %>
+            </div>
+    </div> <!-- /container -->
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+  </body>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+$('#submit').on('click',function(){
+
+
+    var token = $("#token").html(), // learn how to obtain it below
+    username  = $("#user").html(), // User ID - get it in source HTML of your Instagram profile or look at the next example :)
+    num_photos = 10; // how much photos do you want to get
+  //  var token = 'your access token', // learn how to obtain it below
+      // userid = 1362124742, // User ID - get it in source HTML of your Instagram profile or look at the next example :)
+    //   num_photos = 4; // how much photos do you want to get
+  var  sentData = {
+   oauth2_access_token :token,
+  format: "json"
+};
+
+var resource =
+'https://api.linkedin.com/v1/people/~?oauth2_access_token='+token+'&format=json';
+    $.ajax({ // the first ajax request returns the ID of user
+    	url: resource,
+    //  url = 'https://api.linkedin.com/v1/people/~?oauth2_access_token='+token+'&format=json',
+    	//dataType: 'jsonp',
+    	type: 'GET',
+
+    	//data: {access_token: token, q: username}, //search by username
+      //data: {sentData:sentData}, //search by username
+    	success: function(data){
+        console.log(data);
+    		// $.ajax({
+    		// 	url: 'https://api.instagram.com/v1/users/' + data.data[0].id + '/media/recent',
+    		// 	dataType: 'jsonp',
+    		// 	type: 'GET',
+    		// 	data: {access_token: token, count: num_photos},
+    		// 	success: function(data2){
+        //
+    		// 		for(x in data2.data){
+    		// 			$('ul').append('  <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4"><img src="'+data2.data[x].images.thumbnail.url+'"></li>');
+    		// 		}
+        // 			},
+    		// 	error: function(data2){
+        //
+    		// 	}
+    		// });
+    	},
+    	error: function(data){
+
+        console.log(data);
+   	}
+   });
+
+});
+});
+</script>
+
+</html>
